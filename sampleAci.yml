@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    state: 'present'
+    host: 'sandboxapicdc.cisco.com'
+    username: 'admin'
+    password: 'ciscopsdt'
+    validate_certs: False
+    tenant: 'TEST123'
+    description: 'Description 123'
+  tasks:
+    - name: 'Modify Tenant'
+      cisco.aci.aci_tenant:
+        host: '{{ host }}'
+        username: '{{ username }}'
+        password: '{{ password }}'
+        validate_certs: '{{ validate_certs }}'
+        tenant: '{{ tenant}}'
+        description: '{{ description }}'
+        state: '{{ state }}'
+...
