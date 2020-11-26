@@ -26,7 +26,7 @@
           - enable_routing is boolean
 
     - name: Ensure that ACI Tenant <'{{ tenant }}'> is in state <'{{ state }}'>
-      cisco.aci.aci_tenant:
+      aci_tenant:
         host: '{{ host }}'
         username: '{{ username }}'
         password: '{{ password }}'
@@ -36,7 +36,7 @@
         state: '{{ state }}'
 
     - name: Ensure that Vrf <'{{ vrf }}'> for Tenant <'{{ tenant }}'> is in state <'{{ state }}'>
-      cisco.aci.aci_vrf:
+      aci_vrf:
         host: '{{ host }}'
         username: '{{ username }}'
         password: '{{ password }}'
@@ -49,7 +49,7 @@
         state: '{{ state }}'
 
     - name: Ensure that Bridge Domain <'{{ bd }}'> is in state <'{{ state }}'>
-      cisco.aci.aci_bd:
+      aci_bd:
         host: '{{ host }}'
         username: '{{ username }}'
         password: '{{ password }}'
