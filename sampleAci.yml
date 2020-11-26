@@ -3,8 +3,8 @@
   vars:
     state: 'present'
     host: 'sandboxapicdc.cisco.com'
-    username: 'admin'
-    password: 'ciscopsdt'
+    username: '{{ ANSIBLE_NET_USERNAME }}'
+    password: '{{ ANSIBLE_NET_PASSWORD }}'
     validate_certs: False
     tenant: 'TEST123'
     description: 'Description 123'
