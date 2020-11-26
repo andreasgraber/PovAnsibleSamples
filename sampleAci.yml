@@ -10,7 +10,6 @@
     description: 'Description 123'
     vrf: 'VRF-TEST123'
     bd: 'BD-TEST'
-    arp_flooding: True
     endpoint_move_detect: 'garp'
     enable_routing: False
   tasks:
@@ -21,9 +20,7 @@
           - description is string
           - vrf is string
           - bd is string
-          - arp_flooding is boolean
           - endpoint_move_detect is string
-          - enable_routing is boolean
 
     - name: Ensure that ACI Tenant <'{{ tenant }}'> is in state <'{{ state }}'>
       aci_tenant:
@@ -57,7 +54,6 @@
         tenant: '{{ tenant }}'
         vrf: '{{ vrf }}'
         bd: '{{ bd }}'
-        arp_flooding: '{{ arp_flooding }}'
         endpoint_move_detect: '{{ endpoint_move_detect }}'
         enable_routing: '{{ enable_routing }}'
         description: '{{ description }}'
