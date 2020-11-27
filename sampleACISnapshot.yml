@@ -62,7 +62,7 @@
 
       rescue:
         - name: Query Existing Snapshots
-          cisco.aci.aci_config_snapshot:
+          aci_config_snapshot:
             host: '{{ host }}'
             username: '{{ username }}'
             password: '{{ password }}'
@@ -73,7 +73,7 @@
           register: snapshot
 
         - name: Rollback Configuration
-          cisco.aci.aci_config_rollback:
+          aci_config_rollback:
             host: '{{ host }}'
             username: '{{ username }}'
             password: '{{ password }}'
