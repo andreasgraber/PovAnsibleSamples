@@ -24,7 +24,7 @@
           - endpoint_move_detect is string
 
     - name: Creating Snapshot
-      cisco.aci.aci_config_snapshot:
+      aci_config_snapshot:
         host: '{{ host }}'
         username: '{{ username }}'
         password: '{{ password }}'
