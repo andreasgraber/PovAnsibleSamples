@@ -3,10 +3,10 @@
   vars:
     state: 'present'
     host: 'sandboxapicdc.cisco.com'
-    username: '{{ username }}'
-    password: '{{ password }}'
+    username: admin
+    password: ciscopsdt
     validate_certs: False
-    tenant: 'TEST123'
+    tenant: 'Snapshot'
     description: 'Description 123'
     vrf: 'VRF TEST123'
     bd: 'BD-TEST'
@@ -80,6 +80,8 @@
             validate_certs: '{{ validate_certs }}'
             import_policy: rollback_config
             export_policy: config_backup
-            snapshot: '{{snapshot["current"][0]["configSnapshotCont"]["children"][0]["configSnapshot"]["attributes"]["rn"]}}'
+            snapshot: '{{snapshot["current"][0]["configSnapshotCont"]["children"][0]["configSnapshot"]["attributes"]["name"]}}'
+            import_type: 'replace'
+            import_mode: 'atomic'
             state: rollback
           delegate_to: localhost
