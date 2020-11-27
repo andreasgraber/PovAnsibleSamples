@@ -1,0 +1,85 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    state: 'present'
+    host: 'sandboxapicdc.cisco.com'
+    username: admin
+    password: ciscopsdt
+    validate_certs: False
+    tenant: 'TEST123'
+    description: 'Description 123'
+    vrf: 'VRF TEST123'
+    bd: 'BD-TEST'
+    endpoint_move_detect: 'garp'
+    enable_routing: False
+    failed: False
+  tasks:
+    - name: Validate Input Specific
+      assert:
+        that:
+          - tenant is string
+          - description is string
+          - vrf is string
+          - bd is string
+          - endpoint_move_detect is string
+
+    - name: Creating Snapshot
+      cisco.aci.aci_config_snapshot:
+        host: '{{ host }}'
+        username: '{{ username }}'
+        password: '{{ password }}'
+        validate_certs: '{{ validate_certs }}'
+        state: present
+        export_policy: config_backup
+        max_count: 1
+        description: Backups taken before new configs are applied.
+      delegate_to: localhost
+
+    - name: Handle the error
+      block:
+        - name: Ensure that ACI Tenant <'{{ tenant }}'> is in state <'{{ state }}'>
+          aci_tenant:
+            host: '{{ host }}'
+            username: '{{ username }}'
+            password: '{{ password }}'
+            validate_certs: '{{ validate_certs }}'
+            tenant: '{{ tenant}}'
+            description: '{{ description }}'
+            state: '{{ state }}'
+
+        - name: Ensure that Vrf <'{{ vrf }}'> for Tenant <'{{ tenant }}'> is in state <'{{ state }}'>
+          aci_vrf:
+            host: '{{ host }}'
+            username: '{{ username }}'
+            password: '{{ password }}'
+            validate_certs: '{{ validate_certs }}'
+            vrf: '{{ vrf }}'
+            tenant: '{{ tenant }}'
+            descr: '{{ description }}'
+            policy_control_preference: enforced
+            policy_control_direction: ingress
+            state: '{{ state }}'
+
+      rescue:
+        - name: Query Existing Snapshots
+          cisco.aci.aci_config_snapshot:
+            host: '{{ host }}'
+            username: '{{ username }}'
+            password: '{{ password }}'
+            validate_certs: '{{ validate_certs }}'
+            export_policy: config_backup
+            state: query
+          delegate_to: localhost
+          register: snapshot
+
+        - name: Rollback Configuration
+          cisco.aci.aci_config_rollback:
+            host: '{{ host }}'
+            username: '{{ username }}'
+            password: '{{ password }}'
+            validate_certs: '{{ validate_certs }}'
+            import_policy: rollback_config
+            export_policy: config_backup
+            snapshot: '{{snapshot["current"][0]["configSnapshotCont"]["children"][0]["configSnapshot"]["attributes"]["rn"]}}'
+            state: rollback
+          delegate_to: localhost
