@@ -3,8 +3,8 @@
   vars:
     state: 'present'
     host: 'sandboxapicdc.cisco.com'
-    username: admin
-    password: ciscopsdt
+    username: '{{ username }}'
+    password: '{{ password }}'
     validate_certs: False
     tenant: 'Snapshot'
     description: 'Description 123'
